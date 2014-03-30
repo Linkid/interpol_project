@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import matplotlib.backends.backend_tkagg as pdfagg
 import Tkinter as Tk
 
+from itertools import combinations
+
 
 class CatmullClark:
     def __init__(self, mesh):
@@ -18,6 +20,23 @@ class CatmullClark:
         """
         self.mesh = mesh
         self.vertices = mesh['vertices']
+        self.edges_v = {}
+        self.faces_v = mesh['faces']
+        self.faces_e = {}
+
+        # convert faces of vertices to edges of vertices
+        self.edges_vertex()
+
+    def edges_vertex(self):
+        """
+        Return edges depending on vertices number
+        """
+        edges = set()  # unique elements
+        for face in self.faces_v:
+            combis = combinations(face, 2)  # [('a','b'), ('a', 'c'), …]
+            for edge in combis:
+                edges.add(edge)
+        self.edges_v = dict(zip(range(len(edges)), edges))
 
     def face_point(self, ctrl_points):
         """
