@@ -24,6 +24,9 @@ class CatmullClark:
         self.faces_v = mesh['faces']
         self.faces_e = {}
 
+        self.face_points = []
+        self.edge_points = []
+
         # convert faces of vertices to edges of vertices
         self.edges_vertex()
         # convert faces of vertices to faces of edges
@@ -32,14 +35,14 @@ class CatmullClark:
     def algo(self):
         """Calcuate the new points"""
         # for each face, add a face point
-        face_points = []
+        self.face_points = []
         for face in self.faces_v:
-            face_points.append(self.face_point(self.vertices(face)))
+            self.face_points.append(self.face_point(self.vertices(face)))
 
         # for each edge, add an edge point
-        edge_points = []
+        self.edge_points = []
         for id_edge, id_vertices in self.edges_v.items():
-            edge_points.append(self.edge_point(id_edge_v, face_points))
+            self.edge_points.append(self.edge_point(id_edge_v, self.face_points))
 
     def edges_vertex(self):
         """
