@@ -26,6 +26,7 @@ class CatmullClark:
 
         self.face_points = []
         self.edge_points = []
+        self.vertex_points = []
 
         # convert faces of vertices to edges of vertices
         self.edges_vertex()
@@ -43,6 +44,11 @@ class CatmullClark:
         self.edge_points = []
         for id_edge, id_vertices in self.edges_v.items():
             self.edge_points.append(self.edge_point(id_edge_v, self.face_points))
+
+        # move the control point to the vertex point
+        self.vertex_points = []
+        for vertex in self.vertices:
+            self.vertex_point(vertex)
 
     def edges_vertex(self):
         """
@@ -148,7 +154,6 @@ class CatmullClark:
         return vertex_point
 
 
-# move the control point to the vertex point
 # connect the new points to define new faces
 ## for each face point, connect the face point to the edge points of the face
 ## for each vertex point, connect the vertex point to the edge points of the
