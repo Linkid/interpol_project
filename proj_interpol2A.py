@@ -38,6 +38,12 @@ class CatmullClark:
                 edges.add(edge)
         self.edges_v = dict(zip(range(len(edges)), edges))
 
+    def faces_edge(self):
+        """
+        Return faces depending on edges number
+        """
+        pass
+
     def face_point(self, ctrl_points):
         """
         The average point of all the control points for the face
@@ -54,12 +60,17 @@ class CatmullClark:
         """
         return np.average(ctrl_points, axis=0)
 
+    def edge_point(self, edge):
+        """
+        The average of the two control points on either side of the edge, and
+        the face points of the touching faces
+        """
+        edge_center = np.average(edge, axis=0)
+
 
 
 # for each face, add a face point
 # for each edge, add an edge point
-## edge point : the average of the two control points on either side of the
-## edge, and the face points of the touching faces
 # move the control point to the vertex point
 ## vertex point : P = (Q + 2*R + (n-3)*S) / n
 ### n : the valence (number of edges the connect to that point)
