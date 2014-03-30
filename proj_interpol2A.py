@@ -26,6 +26,8 @@ class CatmullClark:
 
         # convert faces of vertices to edges of vertices
         self.edges_vertex()
+        # convert faces of vertices to faces of edges
+        self.faces_edge()
 
     def edges_vertex(self):
         """
@@ -42,7 +44,16 @@ class CatmullClark:
         """
         Return faces depending on edges number
         """
-        pass
+        for n, face in enumerate(self.faces_v):
+            faces = []
+            # get the key of the edge from its vertices
+            combis = combinations(face, 2)  # [('a','b'), ('a', 'c'), …]
+            for edge in combis:
+                edge_ = tuple(sorted(edge))
+                faces.extend([k for k, v in self.edges_v.items()
+                             if v == edge_])
+            # update the faces dict
+            self.faces_e[n] = sorted(faces)
 
     def face_point(self, ctrl_points):
         """
@@ -65,7 +76,8 @@ class CatmullClark:
         The average of the two control points on either side of the edge, and
         the face points of the touching faces
         """
-        edge_center = np.average(edge, axis=0)
+        pass
+        #edge_center = np.average(edge, axis=0)
 
 
 

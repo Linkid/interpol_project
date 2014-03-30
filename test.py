@@ -25,6 +25,10 @@ class TestEvalution(unittest.TestCase):
         self.cat.edges_vertex()
         self.assertEqual(self.cat.edges_v, {2: (1, 4), 1: (1, 5), 0: (4, 5)})
 
+    def test_faces_edge(self):
+        self.cat.faces_edge()
+        self.assertEqual(self.cat.faces_e, {0: [0, 1, 2]})
+
 
 if __name__ == '__main__':
     unittest.main()
