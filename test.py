@@ -22,8 +22,8 @@ class TestEvalution(unittest.TestCase):
         np_test.assert_array_equal(face_point, np.array([1/3., -1/3., 1/3.]))
 
     def test_edges_vertex(self):
-        edges = self.cat.edges_vertex()
-        self.assertTrue({0: (1, 4), 1: (1, 5), 2: (4, 5)}, edges)
+        edges_v = self.cat.edges_vertex()
+        self.assertTrue({0: (1, 4), 1: (1, 5), 2: (4, 5)}, edges_v)
 
 
 if __name__ == '__main__':
