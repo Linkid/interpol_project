@@ -10,7 +10,7 @@ install:
 
 # command to run tests
 script:
-    - nosetests
+    - nosetests --with-coverage --cover-tests
 
 after_success:
     - coveralls
