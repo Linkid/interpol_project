@@ -1,6 +1,9 @@
 Interpolation project
 =====================
 
+[![Build
+Status](https://travis-ci.org/Linkid/interpol_project.svg)](https://travis-ci.org/Linkid/interpol_project)
+
 Date: 28/03/2014
 
 Surface interpolation project (2A n7, imm)
