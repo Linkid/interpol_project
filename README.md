@@ -23,3 +23,4 @@ Links
 * Bitbucket (hg) repo: https://bitbucket.org/Linkid/interpol_project/overview
 * Wikipedia: http://en.wikipedia.org/wiki/Catmull%E2%80%93Clark_subdivision_surface
 * OBJ octahedre_regulier: http://guides.recitmst.qc.ca/geometrie/IMG/obj/octaedre_regulier.obj
+* More OBJ objects: http://people.sc.fsu.edu/~jburkardt/data/obj/obj.html
