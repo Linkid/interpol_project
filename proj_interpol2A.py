@@ -107,15 +107,48 @@ class CatmullClark:
 
         return np.average([edge_center, face_points_center], axis=0)
 
+    def vertex_point(self, S):
+        """
+        VP = (Q + 2*R + (n-3)*S) / n
+        with:
+        n: the valence (number of edges the connect to that point)
+        Q: the average of all surroundings face points
+        R: the average of all surrounding edge midpoints
+        S: the original control point
+        """
+        # valence
+        n = 0
+        ind_vertex = self.vertices.index(S)
+        touching_edges = []
+        for id_edge, id_vertices in self.edges_v.items():
+            if ind_vertex in id_vertices:
+                touching_edges.append(id_edge)  # add the edge id
+                n += 1
 
+        # surroundings face points
+        # surroundings edge midpoints
+        touching_face_points = set()
+        edge_midpoints = set()
+        for id_edge_v in touching_edges:
+            # face points of the touching faces
+            touching_faces = [f for f, edges in self.faces_e.items()
+                              if id_edge_v in edges]
+            touching_face_points.add([self.face_points[i]
+                                     for i in touching_faces])
+
+            # edge midpoint
+            vertices_ = [self.vertices[v] for v in self.edges_v[id_edge_v]]
+            edge_midpoints.add(np.average(vertices_, axis=0))
+
+        Q = np.average(list(touching_face_points), axis=0)
+        R = np.average(list(edge_midpoints.add), axis=0)
+
+        vertex_point = (1 / (n * 1.)) * np.average([Q, R, S], axis=0,
+                                                   weights=[1., 2., (n-3.)])
+        return vertex_point
 
 
 # move the control point to the vertex point
-## vertex point : P = (Q + 2*R + (n-3)*S) / n
-### n : the valence (number of edges the connect to that point)
-### Q : the average of all surroundings face points
-### R : the average of all surrounding edge midpoints
-### S : the original control point
 # connect the new points to define new faces
 ## for each face point, connect the face point to the edge points of the face
 ## for each vertex point, connect the vertex point to the edge points of the
