@@ -14,7 +14,7 @@ import Tkinter as Tk
 class CatmullClark:
     def __init__(self, mesh):
         """
-        mesh: dictionary of vertices, edges and faces
+        mesh: dictionary of vertices and faces (obj file decoded)
         """
         self.mesh = mesh
         self.vertices = mesh['vertices']
@@ -23,8 +23,15 @@ class CatmullClark:
         """
         The average point of all the control points for the face
 
-        ctrl_points: list of control points for a face
-        return the face point
+        Parameters
+        ----------
+        ctrl_points: list of int list
+            Control points for the face
+
+        Returns
+        -------
+        np.array
+            The face point
         """
         return np.average(ctrl_points, axis=0)
 
