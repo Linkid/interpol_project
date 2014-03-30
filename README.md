@@ -1,8 +1,8 @@
 Interpolation project
 =====================
 
-[![Build
-Status](https://travis-ci.org/Linkid/interpol_project.svg)](https://travis-ci.org/Linkid/interpol_project)
+[![Build Status](https://travis-ci.org/Linkid/interpol_project.svg)](https://travis-ci.org/Linkid/interpol_project)
+[![Coverage Status](https://coveralls.io/repos/Linkid/interpol_project/badge.png)](https://coveralls.io/r/Linkid/interpol_project)
 
 Date: 28/03/2014
 
