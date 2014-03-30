@@ -11,8 +11,26 @@ import matplotlib.backends.backend_tkagg as pdfagg
 import Tkinter as Tk
 
 
+class CatmullClark:
+    def __init__(self, mesh):
+        """
+        mesh: dictionary of vertices, edges and faces
+        """
+        self.mesh = mesh
+        self.vertices = mesh['vertices']
+
+    def face_point(self, ctrl_points):
+        """
+        The average point of all the control points for the face
+
+        ctrl_points: list of control points for a face
+        return the face point
+        """
+        return np.average(ctrl_points, axis=0)
+
+
+
 # for each face, add a face point
-## face point : the average point of all the control points for the face
 # for each edge, add an edge point
 ## edge point : the average of the two control points on either side of the
 ## edge, and the face points of the touching faces
