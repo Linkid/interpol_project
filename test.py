@@ -63,6 +63,26 @@ class TestEvalution(unittest.TestCase):
                                             6: [0, 2, 4],
                                             7: [1, 4, 7]})
 
+    def test_edge_point(self):
+        id_edge = 9  # vertices (3, 4)
+        face_points = []
+
+        # add the face point of the face 1
+        vertices = [self.vertices[v] for v in self.faces[1]]
+        face_points.append(self.cat.face_point(vertices))
+        np_test.assert_array_equal(face_points[-1],
+                                   np.array([-1/3., -1/3., 1/3.]))
+        # add the face point of the face 2
+        vertices = [self.vertices[v] for v in self.faces[2]]
+        face_points.append(self.cat.face_point(vertices))
+        np_test.assert_array_equal(face_points[-1],
+                                   np.array([-1/3., 1/3., 1/3.]))
+
+        edge_point = self.cat.edge_point(id_edge, face_points)
+
+        np_test.assert_array_equal(edge_point,
+                                   np.array([-1/6., -1/4., 5/12.]))
+
 
 if __name__ == '__main__':
     unittest.main()

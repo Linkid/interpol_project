@@ -71,13 +71,27 @@ class CatmullClark:
         """
         return np.average(ctrl_points, axis=0)
 
-    def edge_point(self, edge):
+    def edge_point(self, id_edge_v, face_points):
         """
         The average of the two control points on either side of the edge, and
         the face points of the touching faces
+
+        id_edge: the dict key of the edge from self.edges_v
+        face_points: list of face points ([np.array, …])
         """
-        pass
-        #edge_center = np.average(edge, axis=0)
+        # the center of the edge
+        edges = self.edges_v[id_edge_v]  # tuple of id of vertices
+        ctrl_points = [self.vertices[i] for i in edges]
+        edge_center = np.average(ctrl_points, axis=0)
+
+        # the center of the face points of the touching faces
+        touching_faces = [f for f, edges in self.faces_e.items()
+                          if id_edge_v in edges]
+        touching_face_points = [face_points[i] for i in touching_faces]
+        face_points_center = np.average(touching_face_points, axis=0)
+
+        return np.average([edge_center, face_points_center], axis=0)
+
 
 
 
