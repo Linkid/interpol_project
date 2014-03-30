@@ -29,6 +29,18 @@ class CatmullClark:
         # convert faces of vertices to faces of edges
         self.faces_edge()
 
+    def algo(self):
+        """Calcuate the new points"""
+        # for each face, add a face point
+        face_points = []
+        for face in self.faces_v:
+            face_points.append(self.face_point(self.vertices(face)))
+
+        # for each edge, add an edge point
+        edge_points = []
+        for id_edge, id_vertices in self.edges_v.items():
+            edge_points.append(self.edge_point(id_edge_v, face_points))
+
     def edges_vertex(self):
         """
         Return edges depending on vertices number
@@ -95,8 +107,6 @@ class CatmullClark:
 
 
 
-# for each face, add a face point
-# for each edge, add an edge point
 # move the control point to the vertex point
 ## vertex point : P = (Q + 2*R + (n-3)*S) / n
 ### n : the valence (number of edges the connect to that point)
