@@ -35,7 +35,7 @@ class CatmullClark:
         for face in self.faces_v:
             combis = combinations(face, 2)  # [('a','b'), ('a', 'c'), …]
             for edge in combis:
-                edges.add(edge)
+                edges.add(tuple(sorted(edge)))
         self.edges_v = dict(zip(range(len(edges)), edges))
 
     def faces_edge(self):
