@@ -11,6 +11,8 @@ import numpy as np
 #import Tkinter as Tk
 
 from itertools import combinations
+import argparse
+from wavefront_parser import ObjFile
 
 
 class CatmullClark:
@@ -167,7 +169,20 @@ class CatmullClark:
 
 #plt.ion()
 #
-#if __name__ == '__main__':
+if __name__ == '__main__':
+    # parse the options
+    parser = argparse.ArgumentParser()
+    parser.add_argument("obj_file", help="OBJ filename to smooth", type=str)
+    args = parser.parse_args()
+
+    if args.obj_file:
+        obj = ObjFile()
+        obj.read(args.obj_file)
+        mesh = {'vertices': obj.verts, 'faces': obj.faces}
+
+        surface = CatmullClark(mesh)
+        surface.algo()
+
 #    fig = plt.figure()
 #    ax = fig.add_subplot(111)
 #
