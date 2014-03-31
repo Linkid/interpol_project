@@ -11,6 +11,7 @@ install:
 # command to run tests
 script:
     - nosetests --with-coverage --cover-erase --cover-package='.'
+    #- coverage run --source='.' test.py
 
 after_success:
     - coveralls
