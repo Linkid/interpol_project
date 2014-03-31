@@ -81,8 +81,8 @@ class TestEvalution(unittest.TestCase):
         edge_point = self.cat.edge_point(id_edge, face_points)
 
         # grrrr ! Works, but…
-        #np_test.assert_array_equal(edge_point,
-        #                           np.array([-1/6., -1/4., 5/12.]))
+        np_test.assert_array_almost_equal_nulp(edge_point,
+                                   np.array([0, -5/12., 5/12.]))
 
 
 if __name__ == '__main__':
