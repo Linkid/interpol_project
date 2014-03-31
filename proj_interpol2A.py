@@ -38,12 +38,13 @@ class CatmullClark:
         # for each face, add a face point
         self.face_points = []
         for face in self.faces_v:
-            self.face_points.append(self.face_point(self.vertices(face)))
+            vertices_ = [self.vertices[v] for v in face]
+            self.face_points.append(self.face_point(vertices_))
 
         # for each edge, add an edge point
         self.edge_points = []
         for id_edge, id_vertices in self.edges_v.items():
-            self.edge_points.append(self.edge_point(id_edge_v, self.face_points))
+            self.edge_points.append(self.edge_point(id_edge, self.face_points))
 
         # move the control point to the vertex point
         self.vertex_points = []
@@ -139,15 +140,15 @@ class CatmullClark:
             # face points of the touching faces
             touching_faces = [f for f, edges in self.faces_e.items()
                               if id_edge_v in edges]
-            touching_face_points.add([self.face_points[i]
-                                     for i in touching_faces])
+            for i in touching_faces:
+                touching_face_points.add(tuple(self.face_points[i]))
 
             # edge midpoint
             vertices_ = [self.vertices[v] for v in self.edges_v[id_edge_v]]
-            edge_midpoints.add(np.average(vertices_, axis=0))
+            edge_midpoints.add(tuple(np.average(vertices_, axis=0)))
 
         Q = np.average(list(touching_face_points), axis=0)
-        R = np.average(list(edge_midpoints.add), axis=0)
+        R = np.average(list(edge_midpoints), axis=0)
 
         vertex_point = (1 / (n * 1.)) * np.average([Q, R, S], axis=0,
                                                    weights=[1., 2., (n-3.)])
