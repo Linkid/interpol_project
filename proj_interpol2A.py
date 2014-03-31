@@ -173,6 +173,8 @@ if __name__ == '__main__':
     # parse the options
     parser = argparse.ArgumentParser()
     parser.add_argument("obj_file", help="OBJ filename to smooth", type=str)
+    parser.add_argument("--nbiter", help="Number of iterations", type=int,
+                        default=10)
     args = parser.parse_args()
 
     if args.obj_file:
@@ -181,7 +183,8 @@ if __name__ == '__main__':
         mesh = {'vertices': obj.verts, 'faces': obj.faces}
 
         surface = CatmullClark(mesh)
-        surface.algo()
+        for nbiter in xrange(args.nbiter):
+            surface.algo()
 
 #    fig = plt.figure()
 #    ax = fig.add_subplot(111)
