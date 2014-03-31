@@ -112,6 +112,19 @@ class TestEvalution(unittest.TestCase):
         np_test.assert_allclose(edge_point,
                                 np.array([-3/8., 0., -3/8.]))
 
+    def test_vertex_point(self):
+        n = 3  # valence for a cube
+        vertex = self.vertices[0]
+        fps = []
+        for face in self.faces:
+            vs = [self.vertices[v] for v in face]
+            fps.append(self.cat.face_point(vs))
+        self.cat.face_points = fps
+        vertex_point = self.cat.vertex_point(vertex)
+
+        np_test.assert_allclose(vertex_point, np.array([-0.06018519,
+                                -0.06018519,  0.06018519]))
+
 
 if __name__ == '__main__':
     unittest.main()
