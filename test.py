@@ -239,5 +239,5 @@ class TestObj(unittest.TestCase):
         self.objs_asserts([], [], [], f)
 
 
-if __name__ == '__main__':
-    unittest.main()
+#if __name__ == '__main__':
+#    unittest.main()
