@@ -24,7 +24,7 @@ class ObjFile:
                 elif cmd == 'vn':
                     self.norms.append(map(float, words[1:]))
                 elif cmd == 'vt':
-                    self.texto.append(map(float, words[1:]))
+                    self.textco.append(map(float, words[1:]))
                 elif cmd == 'f':
                     face = words[1:]
                     # OBJ Files are 1-indexed so we must subtract 1 below
