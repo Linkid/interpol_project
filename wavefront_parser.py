@@ -37,7 +37,7 @@ class ObjFile:
                         face.append(int(w[0]) - 1)
                         if len(w) >= 2 and w[1] != "":
                             ftextco.append(int(w[1]) - 1)
-                        if len(w) == 3 and w[1] != "":
+                        if len(w) == 3 and w[2] != "":
                             fnorms.append(int(w[2]) - 1)
                     self.faces.append(face)
                     if len(ftextco):
