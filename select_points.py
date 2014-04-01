@@ -1,15 +1,14 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
-import matplotlib
-matplotlib.use('TkAgg')
+#import matplotlib
+#matplotlib.use('TkAgg')
 
-import numpy as np
-import scipy as sp
+#import numpy as np
+#import scipy as sp
 import matplotlib.pyplot as plt
-import matplotlib.backends.backend_tkagg as pdfagg
-import Tkinter as Tk
-
+#import matplotlib.backends.backend_tkagg as tkagg
+#import Tkinter as Tk
 
 
 class PointBuilder:
@@ -37,7 +36,7 @@ if __name__ == '__main__':
     fig = plt.figure()
     ax = fig.add_subplot(111)
 
-#pointbuilder = PointBuilder(ax)
+    #pointbuilder = PointBuilder(ax)
     points = plt.ginput(n=0, timeout=0, show_clicks=True, mouse_stop=2)
     for pt in points:
         ax.scatter(pt[0], pt[1], s=80, marker='+')
@@ -46,4 +45,3 @@ if __name__ == '__main__':
 
 plt.ioff()
 plt.show()
-

@@ -117,8 +117,8 @@ class CatmullClark:
         edge_center = np.average(ctrl_points, axis=0)
 
         # the center of the face points of the touching faces
-        touching_faces = [f for f, edges in self.faces_e.items()
-                          if id_edge_v in edges]
+        touching_faces = [f for f, i_edges in self.faces_e.items()
+                          if id_edge_v in i_edges]
         touching_face_points = [face_points[i] for i in touching_faces]
         face_points_center = np.average(touching_face_points, axis=0)
 
@@ -162,6 +162,7 @@ class CatmullClark:
 
         vertex_point = (1 / (n * 1.)) * np.average([Q, R, S], axis=0,
                                                    weights=[1., 2., (n-3.)])
+
         return vertex_point
 
 
@@ -174,7 +175,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("obj_file", help="OBJ filename to smooth", type=str)
     parser.add_argument("--nbiter", help="Number of iterations", type=int,
-                        default=10)
+                        default=1)
     args = parser.parse_args()
 
     if args.obj_file:

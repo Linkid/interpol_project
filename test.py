@@ -115,7 +115,7 @@ class TestEvalution(unittest.TestCase):
                                 np.array([-3/8., 0., -3/8.]))
 
     def test_vertex_point(self):
-        n = 3  # valence for a cube
+        # n = 3  # valence for a cube
         vertex = self.vertices[0]
         fps = []
         for face in self.faces:
@@ -164,7 +164,6 @@ class TestObj(unittest.TestCase):
                       f 1/2/3 4/5/6
                       f 7/8/9 10/11/12
                       """]
-
 
     def objs_asserts(self, v, vn, vt, f, ft, fn):
         """
@@ -293,7 +292,7 @@ class TestObj(unittest.TestCase):
 
         f = [[0, 3], [6, 9]]
         ft = [[1, 4], [7, 10]]
-        fn = [[2, 5], [8,11]]
+        fn = [[2, 5], [8, 11]]
         self.objs_asserts([], [], [], f, ft, fn)
 
 
