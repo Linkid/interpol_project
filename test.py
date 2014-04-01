@@ -136,10 +136,18 @@ class TestObj(unittest.TestCase):
                         # v 0 0 0
                         """
         self.vertices = b"""
-                         v  0 0 1
+                          v  0 0 1
                          v 0  1 0
                          v 0 1  1
                          """
+        self.normals = b"""
+                         vn 0 0.3  3.2
+                        vn  1  2.3 5.1
+                        """
+        self.textures = b"""
+                         vt 2 0.3  3.2
+                        vt  3  0.3 3.2
+                        """
         self.faces = b"""
                       f 1 2
                       f  2  3
@@ -190,6 +198,32 @@ class TestObj(unittest.TestCase):
 
         v = [[0., 0., 1.], [0., 1., 0.], [0., 1., 1.]]
         self.objs_asserts(v, [], [], [])
+
+    def test_read_file_with_normals(self):
+        # create a temporary obj file
+        normals_file = tempfile.NamedTemporaryFile()
+        # add vertices to the temp file
+        normals_file.write(self.normals)
+        # go to the beginning of the temp file
+        normals_file.seek(0)
+        # read the file
+        self.obj.read(normals_file.name)
+
+        vn = [[0., 0.3, 3.2], [1., 2.3, 5.1]]
+        self.objs_asserts([], vn, [], [])
+
+    def test_read_file_with_textures(self):
+        # create a temporary obj file
+        textures_file = tempfile.NamedTemporaryFile()
+        # add vertices to the temp file
+        textures_file.write(self.textures)
+        # go to the beginning of the temp file
+        textures_file.seek(0)
+        # read the file
+        self.obj.read(textures_file.name)
+
+        vt = [[2., 0.3, 3.2], [3., 0.3, 3.2]]
+        self.objs_asserts([], [], vt, [])
 
     def test_read_file_with_faces(self):
         # create a temporary obj file
