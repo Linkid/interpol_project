@@ -4,7 +4,9 @@
 import unittest
 import numpy as np
 import numpy.testing as np_test
+import tempfile
 from proj_interpol2A import CatmullClark
+from wavefront_parser import ObjFile
 
 
 class TestEvalution(unittest.TestCase):
@@ -124,6 +126,83 @@ class TestEvalution(unittest.TestCase):
 
         np_test.assert_allclose(vertex_point, np.array([-0.06018519,
                                 -0.06018519,  0.06018519]))
+
+
+class TestObj(unittest.TestCase):
+    def setUp(self):
+        self.obj = ObjFile()
+        self.comment = b"""
+                        # this is a comment with spaces  
+                        # v 0 0 0
+                        """
+        self.vertices = b"""
+                         v  0 0 1
+                         v 0  1 0
+                         v 0 1  1
+                         """
+        self.faces = b"""
+                      f 1 2
+                      f  2  3
+                      """
+
+    def objs_asserts(self, v, vn, vt, f):
+        """
+        Do the asserts for vertices (v), normals (vn), textures (vt) and
+        faces (f)
+        """
+        self.assertEqual(self.obj.verts, v)
+        self.assertEqual(self.obj.norms, vn)
+        self.assertEqual(self.obj.textco, vt)
+        self.assertEqual(self.obj.faces, f)
+
+    def test_init(self):
+        self.objs_asserts([], [], [], [])
+
+    def test_read_empty_file(self):
+        # create a temporary obj file
+        empty_file = tempfile.NamedTemporaryFile()
+        # read the file
+        self.obj.read(empty_file.name)
+
+        self.objs_asserts([], [], [], [])
+
+    def test_read_commented_file(self):
+        # create a temporary obj file
+        commented_file = tempfile.NamedTemporaryFile()
+        # add a comment to the temp file
+        commented_file.write(self.comment)
+        # go to the beginning of the temp file
+        commented_file.seek(0)
+        # read the file
+        self.obj.read(commented_file.name)
+
+        self.objs_asserts([], [], [], [])
+
+    def test_read_file_with_vertices(self):
+        # create a temporary obj file
+        vertices_file = tempfile.NamedTemporaryFile()
+        # add vertices to the temp file
+        vertices_file.write(self.vertices)
+        # go to the beginning of the temp file
+        vertices_file.seek(0)
+        # read the file
+        self.obj.read(vertices_file.name)
+
+        v = [[0., 0., 1.], [0., 1., 0.], [0., 1., 1.]]
+        self.objs_asserts(v, [], [], [])
+
+    def test_read_file_with_faces(self):
+        # create a temporary obj file
+        faces_file = tempfile.NamedTemporaryFile()
+        # add vertices to the temp file
+        faces_file.write(self.faces)
+        # go to the beginning of the temp file
+        faces_file.seek(0)
+        # read the file
+        self.obj.read(faces_file.name)
+
+        f = [[0, 1], [1, 2]]
+        self.objs_asserts([], [], [], f)
 
 
 if __name__ == '__main__':
