@@ -148,12 +148,25 @@ class TestObj(unittest.TestCase):
                          vt 2 0.3  3.2
                         vt  3  0.3 3.2
                         """
-        self.faces = b"""
+        self.faces = [b"""
                       f 1 2
                       f  2  3
-                      """
+                      """,
+                      b"""
+                      f 1/2 2/3
+                      f 3/4 4/5
+                      """,
+                      b"""
+                      f 1//2 2//3
+                      f 3//4 4//5
+                      """,
+                      b"""
+                      f 1/2/3 4/5/6
+                      f 7/8/9 10/11/12
+                      """]
 
-    def objs_asserts(self, v, vn, vt, f):
+
+    def objs_asserts(self, v, vn, vt, f, ft, fn):
         """
         Do the asserts for vertices (v), normals (vn), textures (vt) and
         faces (f)
@@ -162,9 +175,11 @@ class TestObj(unittest.TestCase):
         self.assertEqual(self.obj.norms, vn)
         self.assertEqual(self.obj.textco, vt)
         self.assertEqual(self.obj.faces, f)
+        self.assertEqual(self.obj.faces_textco, ft)
+        self.assertEqual(self.obj.faces_norms, fn)
 
     def test_init(self):
-        self.objs_asserts([], [], [], [])
+        self.objs_asserts([], [], [], [], [], [])
 
     def test_read_empty_file(self):
         # create a temporary obj file
@@ -172,7 +187,7 @@ class TestObj(unittest.TestCase):
         # read the file
         self.obj.read(empty_file.name)
 
-        self.objs_asserts([], [], [], [])
+        self.objs_asserts([], [], [], [], [], [])
 
     def test_read_commented_file(self):
         # create a temporary obj file
@@ -184,7 +199,7 @@ class TestObj(unittest.TestCase):
         # read the file
         self.obj.read(commented_file.name)
 
-        self.objs_asserts([], [], [], [])
+        self.objs_asserts([], [], [], [], [], [])
 
     def test_read_file_with_vertices(self):
         # create a temporary obj file
@@ -197,7 +212,7 @@ class TestObj(unittest.TestCase):
         self.obj.read(vertices_file.name)
 
         v = [[0., 0., 1.], [0., 1., 0.], [0., 1., 1.]]
-        self.objs_asserts(v, [], [], [])
+        self.objs_asserts(v, [], [], [], [], [])
 
     def test_read_file_with_normals(self):
         # create a temporary obj file
@@ -210,7 +225,7 @@ class TestObj(unittest.TestCase):
         self.obj.read(normals_file.name)
 
         vn = [[0., 0.3, 3.2], [1., 2.3, 5.1]]
-        self.objs_asserts([], vn, [], [])
+        self.objs_asserts([], vn, [], [], [], [])
 
     def test_read_file_with_textures(self):
         # create a temporary obj file
@@ -223,20 +238,63 @@ class TestObj(unittest.TestCase):
         self.obj.read(textures_file.name)
 
         vt = [[2., 0.3, 3.2], [3., 0.3, 3.2]]
-        self.objs_asserts([], [], vt, [])
+        self.objs_asserts([], [], vt, [], [], [])
 
     def test_read_file_with_faces(self):
         # create a temporary obj file
         faces_file = tempfile.NamedTemporaryFile()
         # add vertices to the temp file
-        faces_file.write(self.faces)
+        faces_file.write(self.faces[0])
         # go to the beginning of the temp file
         faces_file.seek(0)
         # read the file
         self.obj.read(faces_file.name)
 
         f = [[0, 1], [1, 2]]
-        self.objs_asserts([], [], [], f)
+        self.objs_asserts([], [], [], f, [], [])
+
+    def test_read_file_with_faces_textco(self):
+        # create a temporary obj file
+        faces_file = tempfile.NamedTemporaryFile()
+        # add vertices to the temp file
+        faces_file.write(self.faces[1])
+        # go to the beginning of the temp file
+        faces_file.seek(0)
+        # read the file
+        self.obj.read(faces_file.name)
+
+        f = [[0, 1], [2, 3]]
+        ft = [[1, 2], [3, 4]]
+        self.objs_asserts([], [], [], f, ft, [])
+
+    def test_read_file_with_faces_normals(self):
+        # create a temporary obj file
+        faces_file = tempfile.NamedTemporaryFile()
+        # add vertices to the temp file
+        faces_file.write(self.faces[2])
+        # go to the beginning of the temp file
+        faces_file.seek(0)
+        # read the file
+        self.obj.read(faces_file.name)
+
+        f = [[0, 1], [2, 3]]
+        fn = [[1, 2], [3, 4]]
+        self.objs_asserts([], [], [], f, [], fn)
+
+    def test_read_file_with_faces_textco_normals(self):
+        # create a temporary obj file
+        faces_file = tempfile.NamedTemporaryFile()
+        # add vertices to the temp file
+        faces_file.write(self.faces[3])
+        # go to the beginning of the temp file
+        faces_file.seek(0)
+        # read the file
+        self.obj.read(faces_file.name)
+
+        f = [[0, 3], [6, 9]]
+        ft = [[1, 4], [7, 10]]
+        fn = [[2, 5], [8,11]]
+        self.objs_asserts([], [], [], f, ft, fn)
 
 
 #if __name__ == '__main__':
