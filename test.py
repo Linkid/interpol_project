@@ -112,8 +112,8 @@ class TestEvalution(unittest.TestCase):
         self.cat.face_points = fps
         vertex_point = self.cat.vertex_point(vertex)
 
-        np_test.assert_allclose(vertex_point, np.array([-0.06018519,
-                                -0.06018519,  0.06018519]))
+        np_test.assert_allclose(vertex_point, np.array([-0.09259259,
+                                -0.09259259,  0.09259259]))
 
 
 class TestObj(unittest.TestCase):
