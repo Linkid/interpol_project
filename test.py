@@ -12,14 +12,14 @@ from wavefront_parser import ObjFile
 class TestEvalution(unittest.TestCase):
     def setUp(self):
         ## init the mesh
-        self.vertices = [[-0.5, -0.5, 0.5],
-                         [-0.5, -0.5, -0.5],
-                         [-0.5, 0.5, -0.5],
-                         [-0.5, 0.5, 0.5],
-                         [0.5, -0.5, 0.5],
-                         [0.5, -0.5, -0.5],
-                         [0.5, 0.5, -0.5],
-                         [0.5, 0.5, 0.5]]
+        self.vertices = [[-0.5, -0.5, 0.5],  # 0
+                         [-0.5, -0.5, -0.5],  # 1
+                         [-0.5, 0.5, -0.5],  # 2
+                         [-0.5, 0.5, 0.5],  # 3
+                         [0.5, -0.5, 0.5],  # 4
+                         [0.5, -0.5, -0.5],  # 5
+                         [0.5, 0.5, -0.5],  # 6
+                         [0.5, 0.5, 0.5]]  # 7
         self.faces = [[3, 2, 1, 0],
                       [1, 5, 4, 0],
                       [2, 6, 5, 1],
@@ -39,30 +39,18 @@ class TestEvalution(unittest.TestCase):
     def test_edges_vertex(self):
         # Faces of vertices to edges of vertices
         self.cat.edges_vertex()
-        self.assertEqual(self.cat.edges_v, {0: (4, 7),
-                                            1: (1, 3),
+        self.assertEqual(self.cat.edges_v, {0: (1, 2),
+                                            1: (0, 1),
                                             2: (5, 6),
-                                            3: (0, 7),
-                                            4: (1, 6),
-                                            5: (3, 7),
-                                            6: (2, 5),
-                                            7: (0, 3),
-                                            8: (1, 2),
-                                            9: (6, 7),
-                                            10: (1, 5),
-                                            11: (3, 6),
-                                            12: (0, 4),
-                                            13: (2, 7),
-                                            14: (2, 6),
-                                            15: (4, 5),
-                                            16: (1, 4),
-                                            17: (2, 3),
-                                            18: (0, 1),
-                                            19: (4, 6),
-                                            20: (5, 7),
-                                            21: (0, 5),
-                                            22: (3, 4),
-                                            23: (0, 2)})
+                                            3: (2, 6),
+                                            4: (6, 7),
+                                            5: (4, 5),
+                                            6: (4, 7),
+                                            7: (1, 5),
+                                            8: (2, 3),
+                                            9: (0, 4),
+                                            10: (3, 7),
+                                            11: (0, 3)})
 
     def test_faces_edge(self):
         # Faces of vertices to faces of edges
