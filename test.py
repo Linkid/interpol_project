@@ -100,7 +100,7 @@ class TestEvalution(unittest.TestCase):
         edge_point = self.cat.edge_point(id_edge, face_points)
 
         np_test.assert_allclose(edge_point,
-                                np.array([-3/8., 0., -3/8.]))
+                                np.array([-3/8., 3/8., 0.]))
 
     def test_vertex_point(self):
         # n = 3  # valence for a cube
