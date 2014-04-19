@@ -67,9 +67,10 @@ class CatmullClark:
         """
         edges = set()  # unique elements
         for face in self.faces_v:
-            combis = combinations(face, 2)  # [('a','b'), ('a', 'c'), …]
-            for edge in combis:
-                edges.add(tuple(sorted(edge)))
+            nb_vertices = len(face)
+            ed = [tuple(sorted((face[v], face[(v+1) % nb_vertices])))
+                  for v in range(nb_vertices)]
+            edges.update(ed)
         self.edges_v = dict(zip(range(len(edges)), edges))
 
     def faces_edge(self):
