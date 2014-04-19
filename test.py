@@ -55,12 +55,12 @@ class TestEvalution(unittest.TestCase):
     def test_faces_edge(self):
         # Faces of vertices to faces of edges
         self.cat.faces_edge()
-        self.assertEqual(self.cat.faces_e, {0: [1, 7, 8, 17, 18, 23],
-                                            1: [10, 12, 15, 16, 18, 21],
-                                            2: [2, 4, 6, 8, 10, 14],
-                                            3: [5, 9, 11, 13, 14, 17],
-                                            4: [0, 3, 5, 7, 12, 22],
-                                            5: [0, 2, 9, 15, 19, 20]})
+        self.assertEqual(self.cat.faces_e, {0: [0, 1, 8, 11],
+                                            1: [1, 5, 7, 9],
+                                            2: [0, 2, 3, 7],
+                                            3: [3, 4, 8, 10],
+                                            4: [6, 9, 10, 11],
+                                            5: [2, 4, 5, 6]})
 
     def test_edge_point(self):
         id_edge = 8  # vertices (0, 1)
