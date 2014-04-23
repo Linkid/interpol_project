@@ -145,12 +145,14 @@ class CatmullClark:
 
         # surroundings face points
         # surroundings edge midpoints
+        touching_faces_all = set()
         touching_face_points = set()
         edge_midpoints = set()
         for id_edge_v in touching_edges:
             # face points of the touching faces
             touching_faces = [f for f, edges in self.faces_e.items()
                               if id_edge_v in edges]
+            touching_faces_all.update(touching_faces)
             for i in touching_faces:
                 touching_face_points.add(tuple(self.face_points[i]))
 
@@ -164,7 +166,7 @@ class CatmullClark:
         vertex_point = (1 / (n * 1.)) * np.average([Q, R, S], axis=0,
                                                    weights=[1., 2., (n-3.)])
 
-        return vertex_point
+        return vertex_point, touching_faces_all
 
 
 
