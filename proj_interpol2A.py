@@ -43,10 +43,22 @@ class CatmullClark:
             vertices_ = [self.vertices[v] for v in face]
             self.face_points.append(self.face_point(vertices_))
 
-        # for each edge, add an edge point
-        self.edge_points = []
-        for id_edge, id_vertices in self.edges_v.items():
-            self.edge_points.append(self.edge_point(id_edge, self.face_points))
+        # for each edge, add an edge point → 12 edge points for a box
+        # 1 edge point for 2 faces
+        # data struct: {id_face: [edge points]}
+        self.edge_points = dict()  # all edge points of the mesh
+        for id_edge in self.edges_v.keys():
+            e_pt, e_faces = self.edge_point(id_edge, self.face_points)
+            # add the edge point to the dict associated to faces e_faces
+            for e_f in e_faces:
+                if e_f in self.edge_points:
+                    # have already edge points for the face e_f
+                    self.edge_points[e_f].append(e_pt)
+                else:
+                    # init the data struct for the face
+                    self.edge_points[e_f] = [e_pt]
+            #self.edge_points.append(self.edge_point(id_edge, self.face_points))
+        #print "Edge points:", len(self.edge_points)
 
         # move the control point to the vertex point
         self.vertex_points = []
