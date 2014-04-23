@@ -110,10 +110,11 @@ class TestEvalution(unittest.TestCase):
             vs = [self.vertices[v] for v in face]
             fps.append(self.cat.face_point(vs))
         self.cat.face_points = fps
-        vertex_point = self.cat.vertex_point(vertex)
+        vertex_point, touching_faces = self.cat.vertex_point(vertex)
 
         np_test.assert_allclose(vertex_point, np.array([-0.09259259,
                                 -0.09259259,  0.09259259]))
+        self.assertEqual(touching_faces, set([0, 1, 4]))
 
 
 class TestObj(unittest.TestCase):
