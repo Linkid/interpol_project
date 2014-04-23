@@ -116,6 +116,14 @@ class TestEvalution(unittest.TestCase):
                                 -0.09259259,  0.09259259]))
         self.assertEqual(touching_faces, set([0, 1, 4]))
 
+    def test_dist_points(self):
+        pt_a = np.array([0, 0, 0])
+        pt_b = np.array([1, 2, 2])
+        pt_c = np.array([1, 0, 0])
+        dists = self.cat.dist_points(pt_a, [pt_b, pt_c])
+
+        self.assertEqual(dists, [3, 1])
+
 
 class TestObj(unittest.TestCase):
     def setUp(self):
