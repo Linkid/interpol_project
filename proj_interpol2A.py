@@ -34,14 +34,18 @@ class CatmullClark:
         self.edges_vertex()
         # convert faces of vertices to faces of edges
         self.faces_edge()
+        #print 'V', self.vertices, len(self.vertices)
+        #print 'E', self.edges_v, len(self.edges_v)
+        #print 'F', self.faces_e, len(self.faces_e)
 
     def algo(self):
-        """Calcuate the new points"""
-        # for each face, add a face point
-        self.face_points = []
+        """Calculate the new points"""
+        # for each face, add a face point → 6 face points for a box
+        self.face_points = []  # all face points of the mesh
         for face in self.faces_v:
             vertices_ = [self.vertices[v] for v in face]
             self.face_points.append(self.face_point(vertices_))
+        #print "Face points:", len(self.face_points)
 
         # for each edge, add an edge point → 12 edge points for a box
         # 1 edge point for 2 faces
@@ -92,12 +96,16 @@ class CatmullClark:
 
         # connect the new points to define new faces
         for id_face, fp in enumerate(self.face_points):
+            #print "-" * 10
+            #print "iteration:", id_face
             ind_fp = map(list, self.n_vertices).index(list(fp))  # ouch ! XXX
 
             # new edges of a face
             edge_points_ = self.edge_points[id_face]
+            #print "new edge points:", len(edge_points_)
             # new vertices of a face
             vertex_points_ = self.vertex_points[id_face]
+            #print "new vertex points:", len(vertex_points_)
 
             # connect points to get new faces
             for pt_v in vertex_points_:
@@ -132,6 +140,10 @@ class CatmullClark:
         #self.faces_e = dict(zip(range(len(self.n_faces_e)), self.n_faces_e))
         self.faces_v = list(self.n_faces_v)
         self.faces_edge()
+        #print "-" * 10
+        #print("nb faces (with vertices)", len(self.faces_v))
+        #print("nb faces (with edges)", len(self.faces_e))
+        #print("ok")
 
     def edges_vertex(self):
         """
