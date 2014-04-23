@@ -126,6 +126,12 @@ class CatmullClark:
                 # update new faces (delete the last face point to the new face=
                 self.n_faces_v.append(n_face_v[:-1])
 
+        # update the mesh
+        self.vertices = self.n_vertices
+        self.edges_v = dict(zip(range(len(self.n_edges_v)), self.n_edges_v))
+        #self.faces_e = dict(zip(range(len(self.n_faces_e)), self.n_faces_e))
+        self.faces_v = list(self.n_faces_v)
+        self.faces_edge()
 
     def edges_vertex(self):
         """
