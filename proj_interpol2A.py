@@ -60,10 +60,18 @@ class CatmullClark:
             #self.edge_points.append(self.edge_point(id_edge, self.face_points))
         #print "Edge points:", len(self.edge_points)
 
-        # move the control point to the vertex point
-        self.vertex_points = []
+        # move the control point to the vertex point → 8x3 vertex pts for a box
+        # 1 vertex point for 3 faces
+        # data struct: {id_face: [vertex points]}
+        self.vertex_points = dict()  # all vertex points of the mesh
         for vertex in self.vertices:
-            self.vertex_points.append(self.vertex_point(vertex))
+            v_pt, v_faces = self.vertex_point(vertex)
+            for v_f in v_faces:
+                if v_f in self.vertex_points:
+                    self.vertex_points[v_f].append(v_pt)
+                else:
+                    self.vertex_points[v_f] = [v_pt]
+        #print "Vertex points:", len(self.vertex_points)
 
         # connect the new points to define new faces
         for id_face, fp in enumerate(self.face_points):
