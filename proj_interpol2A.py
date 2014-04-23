@@ -109,7 +109,7 @@ class CatmullClark:
         The average of the two control points on either side of the edge, and
         the face points of the touching faces
 
-        id_edge: the dict key of the edge from self.edges_v
+        id_edge_v: the dict key of the edge from self.edges_v
         face_points: list of face points ([np.array, …])
         """
         # the center of the edge
@@ -123,7 +123,7 @@ class CatmullClark:
         touching_face_points = [face_points[i] for i in touching_faces]
         face_points_center = np.average(touching_face_points, axis=0)
 
-        return np.average([edge_center, face_points_center], axis=0)
+        return np.average([edge_center, face_points_center], axis=0), touching_faces
 
     def vertex_point(self, S):
         """
