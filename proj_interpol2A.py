@@ -168,8 +168,22 @@ class CatmullClark:
 
         return vertex_point, touching_faces_all
 
+    def dist_points(self, pt_orig, lst_pts):
+        """
+        Return the list of distances between the point pt_orig to points in
+        lst_pts.
+        Distance between two points: euclidean distance.
 
+        pt_orig: a point
+        lst_pts: a list of points
+        """
+        dists = []
+        pt_a = np.array(pt_orig)
 
+        for pt_b in lst_pts:
+            dists.append(np.linalg.norm(pt_a - pt_b))
+
+        return dists
 
 #plt.ion()
 #
