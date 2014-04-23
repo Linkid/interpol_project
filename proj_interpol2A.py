@@ -73,12 +73,58 @@ class CatmullClark:
                     self.vertex_points[v_f] = [v_pt]
         #print "Vertex points:", len(self.vertex_points)
 
+        # update control points
+        # → set of tuples
+        self.n_vertices = set()
+        # vertex points
+        for vp_val in self.vertex_points.values():
+            self.n_vertices.update(map(tuple, vp_val))
+        # edge points
+        for ep_val in self.edge_points.values():
+            self.n_vertices.update(map(tuple, ep_val))
+        self.n_vertices.update(map(tuple, self.face_points))  # face points
+        self.n_vertices = list(self.n_vertices)  # unique tuples → get a list
+        # update edges (init)
+        self.n_edges_v = set()
+        # update faces (init)
+        self.n_faces_e = set()
+        self.n_faces_v = []
+
         # connect the new points to define new faces
         for id_face, fp in enumerate(self.face_points):
-            ## for each face point, connect the face point to the edge points of the face
-            edge_points_ = [self.edge_points[k] for k in self.faces_e[id_face]]
-            ## for each vertex point, connect the vertex point to the edge points of the face
-            vertex_points_ = [self.vertex_points[k] for k in self.faces_v[id_face]]
+            ind_fp = map(list, self.n_vertices).index(list(fp))  # ouch ! XXX
+
+            # new edges of a face
+            edge_points_ = self.edge_points[id_face]
+            # new vertices of a face
+            vertex_points_ = self.vertex_points[id_face]
+
+            # connect points to get new faces
+            for pt_v in vertex_points_:
+                # find the id of the vertex
+                ind_pt_v = map(list, self.n_vertices).index(list(pt_v))
+                # get the two new edge points linked to the new vp
+                dists = self.dist_points(pt_v, edge_points_)
+                sorted_dists = sorted(dists)[:2]  # only the two lowest
+                pts_e = [edge_points_[dists.index(k)] for k in sorted_dists]
+                # init the new face
+                n_face_v = [ind_pt_v]
+
+                # connect points to get new edges
+                for pt_e in pts_e:
+                    # find the id of the vertex
+                    ind_pt_e = map(list, self.n_vertices).index(list(pt_e))
+                    # connect the vertex point to those edge points
+                    self.n_edges_v.add(tuple(sorted([ind_pt_v, ind_pt_e])))
+                    # connect the face point to the edge points
+                    self.n_edges_v.add(tuple(sorted([ind_pt_e, ind_fp])))
+                    # add the id of the edge point to the new face
+                    n_face_v.append(ind_pt_e)
+                    # add the id of the face point to the new face
+                    n_face_v.append(ind_fp)
+
+                # update new faces (delete the last face point to the new face=
+                self.n_faces_v.append(n_face_v[:-1])
 
 
     def edges_vertex(self):
